@@ -1,0 +1,37 @@
+const { log } = require("console");
+const { resolveSoa } = require("dns");
+const express = require("express");
+const app = express();
+const server = require("http").Server(app);
+const io = require("socket.io")(server);
+const { v4: uuidV4 } = require("uuid");
+
+app.set("view engine", "ejs");
+app.use(express.static("public"));
+
+app.get("/", (req, res) => {
+  res.redirect(`/${uuidV4()}`);
+});
+
+app.get("/:room", (req, res) => {
+  res.render("room", { roomId: req.params.room });
+});
+
+io.on("connection", socket => {
+  socket.on("join-room", (roomId, userId) => {
+    console.log(roomId);
+    console.log(userId);
+    // socket.emit("user-connected", userId);
+    io.emit("user-connected", userId);
+
+    socket.on("disconnect", ()=>{
+        io.emit('user-disconnected', userId);
+    })
+  });
+});
+
+server.listen(3002);
+
+// 5e0fa0a1-e656-4e92-8454-0c16aba41892
+
+// 40659560-6fb5-4834-8202-272bef18ebe0
