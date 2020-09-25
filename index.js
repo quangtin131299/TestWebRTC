@@ -24,16 +24,13 @@ io.on("connection", socket => {
     // socket.emit("user-connected", userId);
     io.emit("user-connected", userId);
 
-    socket.on("disconnect", ()=>{
-        io.emit('user-disconnected', userId);
-    })
+    socket.on("disconnect", () => {
+      io.emit("user-disconnected", userId);
+    });
   });
 });
 
 server.listen(3002);
-
-
-
 
 // 5e0fa0a1-e656-4e92-8454-0c16aba41892
 
