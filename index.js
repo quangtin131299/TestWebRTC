@@ -31,5 +31,3 @@ io.on("connection", socket => {
 });
 
 server.listen(3002);
-
-AABCCC
